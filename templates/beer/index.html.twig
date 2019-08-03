@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Beer Test!{% endblock %}
+
+{% block body %}
+    <h1>Enter Coordinates</h1>
+    <p>&nbsp;</p>
+
+    <div class="row">
+        <!-- First column -->
+        <div class="col-md-6 col-xs-12">
+
+            <div class="row form-group">
+                <div class="col-md-4">{{ form_label(form.latitude, 'Latitude') }}</div>
+                <div class="col-md-7">
+                    {{ form_widget(form.latitude, {'attr': {'class': 'form-control'}}) }}
+                    <div class="form-error">
+                        {{ form_errors(form.latitude) }}
+                    </div>
+                </div>
+            </div>
+
+            <div class="row form-group">
+                <div class="col-md-4">{{ form_label(form.longitude, 'Longitude') }}</div>
+                <div class="col-md-7">
+                    {{ form_widget(form.longitude, {'attr': {'class': 'form-control'}}) }}
+                    <div class="form-error">
+                        {{ form_errors(form.longitude) }}
+                    </div>
+                </div>
+            </div>
+
+            <div class="row form-group">
+                <div class="col-md-12 col-xs-12">
+                    {{ form_widget(form.submit, {'attr': {'class': 'btn btn-primary'}}) }}
+                </div>
+            </div>
+
+        </div>
+    </div>
+{% endblock %}
