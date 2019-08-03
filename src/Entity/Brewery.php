@@ -12,7 +12,7 @@ class Brewery
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
+     * @ORM\Column(name="brewery_id", type="integer", options={"unsigned"=true})
      */
     private $id;
 

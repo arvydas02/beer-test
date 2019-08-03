@@ -6,13 +6,14 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\GeoCodeRepository")
+ * @ORM\Table(indexes={@ORM\Index(name="brewery_idx", columns={"brewery_id"})})
  */
 class GeoCode
 {
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
+     * @ORM\Column(name="geo_code__id", type="integer", options={"unsigned"=true})
      */
     private $id;
 
@@ -22,12 +23,12 @@ class GeoCode
     private $breweryId;
 
     /**
-     * @ORM\Column(type="float")
+     * @ORM\Column(type="decimal", precision=12, scale=8)
      */
     private $latitude;
 
     /**
-     * @ORM\Column(type="float")
+     * @ORM\Column(type="decimal", precision=12, scale=8)
      */
     private $longitude;
 

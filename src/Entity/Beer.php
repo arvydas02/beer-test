@@ -6,13 +6,18 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\BeerRepository")
+ * @ORM\Table(indexes={
+ *      @ORM\Index(name="brewery_idx", columns={"brewery_id"}),
+ *      @ORM\Index(name="category_idx", columns={"category_id"}),
+ *      @ORM\Index(name="style_idx", columns={"style_id"})
+ * })
  */
 class Beer
 {
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
+     * @ORM\Column(name="beer_id", type="integer", options={"unsigned"=true})
      */
     private $id;
 
@@ -37,17 +42,17 @@ class Beer
     private $styleId;
 
     /**
-     * @ORM\Column(type="float")
+     * @ORM\Column(type="decimal", precision=12, scale=8)
      */
     private $abv;
 
     /**
-     * @ORM\Column(type="float")
+     * @ORM\Column(type="decimal", precision=12, scale=8)
      */
     private $ibu;
 
     /**
-     * @ORM\Column(type="float")
+     * @ORM\Column(type="decimal", precision=12, scale=8)
      */
     private $srm;
 

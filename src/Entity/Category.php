@@ -12,7 +12,7 @@ class Category
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
+     * @ORM\Column(name="category_id", type="integer", options={"unsigned"=true})
      */
     private $id;
 

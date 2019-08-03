@@ -6,13 +6,14 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\StyleRepository")
+ * @ORM\Table(indexes={@ORM\Index(name="category_idx", columns={"category_id"})})
  */
 class Style
 {
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
+     * @ORM\Column(name="style_id", type="integer", options={"unsigned"=true})
      */
     private $id;
 
