@@ -12,12 +12,15 @@ class BeerController extends AbstractController
 {
     /**
      * @Route("/", name="beer")
+     *
+     * @param Request $request
+     * @return Response
      */
-    public function index( Request $request): Response
+    public function index(Request $request): Response
     {
         $formData = [
-            'latitude' => 51.355468,
-            'longitude' => 11.100790,
+            'latitude' => 51.35546800,
+            'longitude' => 11.10079000,
         ];
 
         $form = $this->createForm(LocationType::class, $formData);
