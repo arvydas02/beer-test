@@ -50,6 +50,10 @@ class ManageBreweryVisits
             'total' => 0,
         ];
 
+        if (!$travelData) {
+            return $visits;
+        }
+
         while ($travelDistance > 0) {
             $breweryId = key($travelData);
             $distance = $travelData[$breweryId]['distance'];
@@ -66,14 +70,6 @@ class ManageBreweryVisits
 
             // If we cannot go home then skip this destination
             if ($distanceToHome > $travelDistance) {
-
-                //echo '<pre>'; print_r($travelData); echo '</pre>';
-
-                if ($lastDistanceToHome > 0) {
-                    $visits['travels'][] = 'HOME: ' . $homeCoordinates['latitude'] . ', '
-                        . $homeCoordinates['longitude'] . ' distance ' . $lastDistanceToHome . ' km';
-                    $visits['total'] += $lastDistanceToHome;
-                }
                 break;
             }
 
@@ -94,6 +90,15 @@ class ManageBreweryVisits
 
             // Update travel data by ne coordinates
             $travelData = $this->manageTravelData->loadTravelDataByCoordinates($nextCoordinates, $visitedBreweries);
+            if (empty($travelData)) {
+                break;
+            }
+        }
+
+        if ($lastDistanceToHome > 0) {
+            $visits['travels'][] = 'HOME: ' . $homeCoordinates['latitude'] . ', '
+                . $homeCoordinates['longitude'] . ' distance ' . $lastDistanceToHome . ' km';
+            $visits['total'] += $lastDistanceToHome;
         }
 
         return $visits;
