@@ -22,6 +22,7 @@ class ManageBreweryVisits
     /**
      * ManageBreweryVisits constructor.
      * @param CalculateDistance $calculateDistance
+     * @param ManageTravelData $manageTravelData
      */
     public function __construct(CalculateDistance $calculateDistance, ManageTravelData $manageTravelData)
     {
