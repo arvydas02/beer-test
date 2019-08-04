@@ -18,7 +18,7 @@ class GeoCode
     private $id;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", options={"unsigned"=true})
      */
     private $breweryId;
 
