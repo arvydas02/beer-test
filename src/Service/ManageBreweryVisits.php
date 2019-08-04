@@ -56,6 +56,17 @@ class ManageBreweryVisits
 
         while ($travelDistance > 0) {
             $breweryId = key($travelData);
+
+            // Adding for testing
+            if (in_array($breweryId, $visitedBreweries)) {
+                unset($travelData[$breweryId]);
+                continue;
+            }
+
+            if (empty($breweryId)) {
+                break;
+            }
+
             $distance = $travelData[$breweryId]['distance'];
             $nextCoordinates = $travelData[$breweryId]['coordinates'];
             $travelDistance -= $distance;
