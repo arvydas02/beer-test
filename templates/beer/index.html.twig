@@ -6,6 +6,8 @@
     <h1>Enter Coordinates</h1>
     <p>&nbsp;</p>
 
+    {{ form_start(form) }}
+
     <div class="row">
         <!-- First column -->
         <div class="col-md-6 col-xs-12">
@@ -38,4 +40,33 @@
 
         </div>
     </div>
+
+    {{ form_end(form) }}
+
+    {% if data %}
+        <hr>
+
+        <h2>Travels</h2>
+        <ul>
+        {% for travelInfo in data['travels'] %}
+            <li>{{ travelInfo }}</li>
+        {% endfor %}
+        </ul>
+
+        <h2>Beers</h2>
+        <ul>
+        {% for beerInfo in data['beers'] %}
+            <li>{{ beerInfo }}</li>
+        {% endfor %}
+        </ul>
+
+        <h2>Total: </h2>
+        <ul>
+            <li>{{ data['total'] }} Km</li>
+        </ul>
+
+        <p>&nbsp;</p>
+        <p>&nbsp;</p>
+    {% endif %}
+
 {% endblock %}

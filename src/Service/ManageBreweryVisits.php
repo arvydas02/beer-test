@@ -42,7 +42,9 @@ class ManageBreweryVisits
         $lastDistanceToHome = 0;
         $visitedBreweries = [];
         $visits = [
-            'travels' => [],
+            'travels' => [
+                'HOME: ' . $homeCoordinates['latitude'] . ', ' . $homeCoordinates['longitude'],
+            ],
             'beers' => [],
             'total' => 0,
         ];
@@ -90,7 +92,7 @@ class ManageBreweryVisits
             $visits['total'] += $travelData[$breweryId]['distance'];
 
             // Update travel data by ne coordinates
-            $travelData = $this->manageTravelData->loadTravelDataByCooordinates($nextCoordinates, $visitedBreweries);
+            $travelData = $this->manageTravelData->loadTravelDataByCoordinates($nextCoordinates, $visitedBreweries);
         }
 
         return $visits;

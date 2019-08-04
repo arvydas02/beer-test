@@ -25,12 +25,12 @@ class BeerController extends AbstractController
     {
         $formData = [
             // Bad Frankenhausen, Germany
-            /*'latitude' => 51.35546800,
-            'longitude' => 11.10079000,*/
+            'latitude' => 51.35546800,
+            'longitude' => 11.10079000,
 
             // Lodz
-            'latitude' => 51.74250300,
-            'longitude' => 19.43295600,
+            /*'latitude' => 51.74250300,
+            'longitude' => 19.43295600,*/
         ];
 
         $form = $this->createForm(LocationType::class, $formData);
