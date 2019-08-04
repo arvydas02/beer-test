@@ -67,36 +67,49 @@ class ManageTravelData
 
             if ($distance > 0 && $distance < $maxDistance) {
 
-                // Get Info about brewery
-                $brewery = $this->entityManager->getRepository(Brewery::class)->find($geoCode->getBreweryId());
+                $breweryId = $geoCode->getBreweryId();
+                $brewery = $this->entityManager->getRepository(Brewery::class)->find($breweryId);
 
                 // Get info about beers
-                $beers = $this->entityManager->getRepository(Beer::class)->findBy(['breweryId' => $geoCode->getBreweryId()]);
+                $beers = $this->entityManager->getRepository(Beer::class)->findBy(['breweryId' => $breweryId]);
 
-                // if there are no beers then skip them
+                // If there are no beers then skip this brewery
                 if (empty($beers)) {
                     continue;
                 }
 
-                $travelData[$geoCode->getBreweryId()]['distance'] = $distance;
-                $travelData[$geoCode->getBreweryId()]['coordinates'] = [
+                // Adding data to travel data array
+                $travelData[$breweryId]['distance'] = $distance;
+                $travelData[$breweryId]['coordinates'] = [
                     'latitude' => $geoCode->getLatitude(),
                     'longitude' => $geoCode->getLongitude(),
                 ];
-                $travelData[$geoCode->getBreweryId()]['name'] = $brewery->getName();
-                $travelData[$geoCode->getBreweryId()]['city'] = $brewery->getCity();
-                $travelData[$geoCode->getBreweryId()]['country'] = $brewery->getCountry();
+                $travelData[$breweryId]['name'] = $brewery->getName();
+                $travelData[$breweryId]['city'] = $brewery->getCity();
+                $travelData[$breweryId]['country'] = $brewery->getCountry();
                 foreach ($beers as $beer) {
-                    $travelData[$geoCode->getBreweryId()]['beers'][$beer->getId()] = $beer->getName();
+                    $travelData[$breweryId]['beers'][$beer->getId()] = $beer->getName();
                 }
             }
 
-            // Sort array by distance
-            uasort($travelData, function($a, $b){
-                return (int)$a['distance'] > (int)$b['distance'] ? 1 : -1;
-            });
+            $travelData = $this->sortDataArray($travelData);
         }
 
         return $travelData;
     }
+
+    /**
+     * Sort array by distance
+     * @param array $travelData
+     * @return array
+     */
+    private function sortDataArray(array $travelData): array
+    {
+        uasort($travelData, function($a, $b){
+            return (int)$a['distance'] > (int)$b['distance'];
+        });
+
+        return $travelData;
+    }
+
 }
