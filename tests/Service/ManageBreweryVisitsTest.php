@@ -23,13 +23,17 @@ class ManageBreweryVisitsTest extends TestCase
     /**
      * @var array
      */
-    private $travelData;
+    private $locations;
+    /**
+     * @var array
+     */
+    private $coordinates;
 
     public function setUp()
     {
-        $this->travelData = [
-            '124' => [
-                'distance' => 7,
+        $this->locations = [
+            [
+                'breweryId' => 1,
                 'coordinates' => [
                     'latitude' => 54.898940,
                     'longitude' => 23.901350,
@@ -43,8 +47,8 @@ class ManageBreweryVisitsTest extends TestCase
                     5 => 'Kauno Tamsusis',
                 ]
             ],
-            '147' => [
-                'distance' => 2,
+            [
+                'breweryId' => 2,
                 'coordinates' => [
                     'latitude' => 54.885870,
                     'longitude' => 23.927810,
@@ -58,8 +62,8 @@ class ManageBreweryVisitsTest extends TestCase
                     8 => 'Volfo Rinktinis',
                 ]
             ],
-            '888' => [
-                'distance' => 98,
+            [
+                'breweryId' => 3,
                 'coordinates' => [
                     'latitude' => 54.699380,
                     'longitude' => 25.433160,
@@ -72,25 +76,46 @@ class ManageBreweryVisitsTest extends TestCase
                     10 => 'Vilniaus Tamsusis',
                 ]
             ],
+            [
+                'breweryId' => 4,
+                'coordinates' => [
+                    'latitude' => 55.497010,
+                    'longitude' => 25.643010,
+                ],
+                'name' => 'Utenos Alus',
+                'city' => 'Utena',
+                'country' => 'Lietuva',
+                'beers' => [
+                    15 => 'Žalgirio alus',
+                    20 => 'Utenos Radler',
+                ]
+            ],
         ];
 
-        $manageTravelDataStub = $this->createMock(ManageTravelData::class);
-        $manageTravelDataStub->method('loadTravelDataByCoordinates')
-            ->willReturn($this->travelData);
-
-        $this->calculateDistance = new CalculateDistance();
-        $this->manageBreweryVisits = new ManageBreweryVisits($this->calculateDistance, $manageTravelDataStub);
-    }
-
-    public function testBreweryVisits(): void
-    {
-        $coordinates = [
+        // Starting coordinates
+        $this->coordinates = [
             'latitude' => 54.966480,
             'longitude' => 23.922131,
         ];
-        $maxDistance = 500;
 
-        $result = $this->manageBreweryVisits->breweryVisits($this->travelData, $coordinates, $maxDistance);
+        $this->calculateDistance = new CalculateDistance();
+        $this->manageBreweryVisits = new ManageBreweryVisits($this->calculateDistance);
+    }
+
+    public function testBreweryVisitsWithAllTravelIncluded(): void
+    {
+        $maxDistance = 500;
+        $result = $this->manageBreweryVisits->breweryVisits($this->locations, $this->coordinates, $maxDistance);
+
+        $this->assertCount(6, $result['travels']);
+        $this->assertCount(10, $result['beers']);
+        $this->assertEquals(320, $result['total']);
+    }
+
+    public function testBreweryVisitsWithShorterDistance(): void
+    {
+        $maxDistance = 300;
+        $result = $this->manageBreweryVisits->breweryVisits($this->locations, $this->coordinates, $maxDistance);
 
         $this->assertCount(5, $result['travels']);
         $this->assertCount(8, $result['beers']);
