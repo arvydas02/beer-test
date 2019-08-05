@@ -29,9 +29,12 @@ class BeerController extends AbstractController
             'longitude' => 11.10079000,
 
             // Lodz
-            /*'latitude' => 51.74250300,
-            'longitude' => 19.43295600,*/
+            //'latitude' => 51.74250300,
+            //'longitude' => 19.43295600,
         ];
+
+        // Load locations
+        $locations = $manageTravelData->loadLocations();
 
         $form = $this->createForm(LocationType::class, $formData);
         $form->handleRequest($request);
@@ -40,11 +43,8 @@ class BeerController extends AbstractController
             $formData = $form->getData();
         }
 
-        // Load travel data
-        $travelData = $manageTravelData->loadTravelDataByCoordinates($formData);
-
         // Get breweries, beer types
-        $data = $manageBreweryVisits->breweryVisits($travelData, $formData);
+        $data = $manageBreweryVisits->breweryVisits($locations, $formData);
 
         return $this->render('beer/index.html.twig', [
             'form' => $form->createView(),
